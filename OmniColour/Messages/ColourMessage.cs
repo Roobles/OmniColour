@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using OmniColour.Decoration;
+using OmniColour.Decoration.Interfaces;
 
 namespace OmniColour.Messages
 {

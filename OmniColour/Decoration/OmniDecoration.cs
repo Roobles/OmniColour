@@ -1,4 +1,6 @@
-﻿namespace OmniColour.Decoration
+﻿using OmniColour.Decoration.Interfaces;
+
+namespace OmniColour.Decoration
 {
   internal class OmniDecoration : IOmniDecoration
   {

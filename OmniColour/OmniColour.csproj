@@ -41,11 +41,13 @@
   <ItemGroup>
     <Compile Include="Constants\AnsiColours.cs" />
     <Compile Include="Constants\Win32Colours.cs" />
-    <Compile Include="Decoration\IOmniDecoration.cs" />
+    <Compile Include="Decoration\Interfaces\IOmniDecoration.cs" />
     <Compile Include="Decoration\OmniDecoration.cs" />
     <Compile Include="Environment\CommandLineEnvironments.cs" />
     <Compile Include="Environment\EnvironmentParser.cs" />
     <Compile Include="Environment\Interfaces\IEnvironmentParser.cs" />
+    <Compile Include="Factories\Interfaces\IOmniColourFactory.cs" />
+    <Compile Include="Factories\OmniColourFactory.cs" />
     <Compile Include="Messages\ColourEntry.cs" />
     <Compile Include="Messages\ColourMessage.cs" />
     <Compile Include="Messages\IColourEntry.cs" />
@@ -65,9 +67,7 @@
     <Compile Include="Writers\Output\OutputWriter.cs" />
     <Compile Include="Writers\Output\Win32OutputWriter.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Factories\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

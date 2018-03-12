@@ -1,4 +1,5 @@
 ﻿using OmniColour.Decoration;
+using OmniColour.Decoration.Interfaces;
 using OmniColour.Environment;
 
 namespace OmniColour.Writers.Output.Interfaces

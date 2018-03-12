@@ -1,4 +1,5 @@
 ﻿using OmniColour.Decoration;
+using OmniColour.Decoration.Interfaces;
 
 namespace OmniColour.Messages
 {

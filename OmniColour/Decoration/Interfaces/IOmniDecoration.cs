@@ -1,4 +1,4 @@
-﻿namespace OmniColour.Decoration
+﻿namespace OmniColour.Decoration.Interfaces
 {
   public interface IOmniDecoration
   {
