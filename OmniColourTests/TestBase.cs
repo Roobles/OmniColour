@@ -12,26 +12,19 @@ namespace OmniColourTests
   [TestClass]
   public class TestBase
   {
-    private readonly IOmniColourFactory _omniFactory;
-
-    internal IOmniColourFactory OmniFactory { get { return _omniFactory; } }
+    internal IOmniColourFactory OmniFactory { get { return OmniColourFactory.Factory; } }
 
     internal IColourWriter TestWriter { get { return OmniFactory.BuildWriter(); } }
 
     internal IList<string> TestContents { get { return TestOutputWriter.Contents; } }
 
-    internal IList<OmniColours> TestColours { get { return TestOutputWriter.Colours; } } 
-    
-    public TestBase()
-    {
-      _omniFactory = BuildOmniFactory();
-    }
+    internal IList<OmniColours> TestColours { get { return TestOutputWriter.Colours; } }
 
-    internal IOmniColourFactory BuildOmniFactory()
+    protected void InitializeBase()
     {
+      TestColours.Clear();
+      TestContents.Clear();
       SetDependencies(OmniColourFactory.IoC);
-
-      return OmniColourFactory.Factory;
     }
 
     internal virtual void SetDependencies(IOmniColourFactoryIoc omniColourIoc)
@@ -39,7 +32,7 @@ namespace OmniColourTests
       omniColourIoc.OutputWriterProviderContrustor = BuildTestProvider;
     }
 
-    private IOutputWriterProvider BuildTestProvider()
+    private static IOutputWriterProvider BuildTestProvider()
     {
       return new TestOutputWriterProvider();
     }

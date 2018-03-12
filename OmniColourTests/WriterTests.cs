@@ -2,12 +2,20 @@
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OmniColour;
+using OmniColour.Decoration;
 
 namespace OmniColourTests
 {
   [TestClass]
   public class WriterTests : TestBase
   {
+    [TestInitialize]
+    public void InitiatalizeTest()
+    {
+      InitializeBase();
+    }
+
     [TestMethod]
     public void TestSimpleWrite()
     {
@@ -29,7 +37,21 @@ namespace OmniColourTests
     [TestMethod]
     public void TestColourWrite()
     {
+      const string colorText = "Hello, world.";
+      const string blankText = "Goodbye, world.";
+      const OmniColours color = OmniColours.Blue;
       
+      var decoration = new OmniDecoration(color);
+      var writer = TestWriter;
+      var message = OmniFactory.BuildMessage();
+
+      Assert.IsNotNull(message.AppendLine(decoration, colorText));
+      Assert.IsNotNull(message.AppendLine(blankText));
+      Assert.IsNotNull(writer.Write(message));
+
+      Assert.AreEqual(TestContents.Count, 2);
+      Assert.AreEqual(TestColours.Count, 2);
+      Assert.AreEqual(TestColours.First(), color);
     }
   }
 }
