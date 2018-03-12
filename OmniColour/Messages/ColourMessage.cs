@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using OmniColour.Decoration;
 using OmniColour.Decoration.Interfaces;
 
 namespace OmniColour.Messages
@@ -8,16 +9,19 @@ namespace OmniColour.Messages
   {
     private readonly List<IColourEntry> _entries;
 
-    protected IList<IColourEntry> Entries { get { return _entries; } } 
+    protected IList<IColourEntry> Entries { get { return _entries; } }
+
+    private IOmniDecoration Decoration { get; set; }
 
     public ColourMessage()
     {
       _entries = new List<IColourEntry>();
+      Decoration = OmniDecoration.None;
     }
 
     public IColourMessage Append(string value)
     {
-      return AppendEntry(value);
+      return AppendEntry(value, GetDecoration());
     }
 
     public IColourMessage Append(IOmniDecoration decoration, string value)
@@ -25,9 +29,14 @@ namespace OmniColour.Messages
       return AppendEntry(value, decoration);
     }
 
+    public IColourMessage Append(OmniColours colour, string value)
+    {
+      return Append(ToDecoration(colour), value);
+    }
+
     public IColourMessage AppendLine(string value)
     {
-      return AppendLine(null, value);
+      return AppendLine(GetDecoration(), value);
     }
 
     public IColourMessage AppendLine(IOmniDecoration decoration, string value)
@@ -36,15 +45,25 @@ namespace OmniColour.Messages
       return AppendEntry(line, decoration);
     }
 
+    public IColourMessage AppendLine(OmniColours colour, string value)
+    {
+      return AppendLine(ToDecoration(colour), value);
+    }
+
     public IColourMessage AppendFormat(string format, params object[] arguments)
     {
-      return AppendFormat(null, format, arguments);
+      return AppendFormat(GetDecoration(), format, arguments);
     }
 
     public IColourMessage AppendFormat(IOmniDecoration decoration, string format, params object[] arguments)
     {
       var value = string.Format(format, arguments);
       return AppendEntry(value, decoration);
+    }
+
+    public IColourMessage AppendFormat(OmniColours colour, string format, params object[] arguments)
+    {
+      return AppendFormat(ToDecoration(colour), format, arguments);
     }
 
     public Collection<IColourEntry> Build()
@@ -54,7 +73,19 @@ namespace OmniColour.Messages
 
     public IColourMessage Clear()
     {
+      SetDecoration(OmniDecoration.None);
       Entries.Clear();
+      return this;
+    }
+
+    public IOmniDecoration GetDecoration()
+    {
+      return Decoration;
+    }
+
+    public IColourMessage SetDecoration(IOmniDecoration decoration)
+    {
+      Decoration = decoration ?? OmniDecoration.None;
       return this;
     }
 
@@ -62,6 +93,11 @@ namespace OmniColour.Messages
     {
       Entries.Add(new ColourEntry(value, decoration));
       return this;
+    }
+
+    protected IOmniDecoration ToDecoration(OmniColours colour)
+    {
+      return new OmniDecoration(colour);
     }
   }
 }
