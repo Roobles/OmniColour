@@ -47,6 +47,7 @@
     <Compile Include="Environment\EnvironmentParser.cs" />
     <Compile Include="Environment\Interfaces\IEnvironmentParser.cs" />
     <Compile Include="Factories\Interfaces\IOmniColourFactory.cs" />
+    <Compile Include="Factories\Interfaces\IOmniColourFactoryIoc.cs" />
     <Compile Include="Factories\OmniColourFactory.cs" />
     <Compile Include="Messages\ColourEntry.cs" />
     <Compile Include="Messages\ColourMessage.cs" />

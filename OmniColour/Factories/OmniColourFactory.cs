@@ -11,7 +11,7 @@ using OmniColour.Writers.Output.Interfaces;
 
 namespace OmniColour.Factories
 {
-  internal class OmniColourFactory : IOmniColourFactory
+  internal class OmniColourFactory : IOmniColourFactory, IOmniColourFactoryIoc
   {
     private static IColourWriter _writer;
 
@@ -24,7 +24,7 @@ namespace OmniColour.Factories
       EnvironmentParserConstructor = BuildEnvironmentParser;
       AnsiOutputWriterConstructor = BuildAnsiOutputWriter;
       Win32OutputWriterConstructor = BuildWin32OutputWriter;
-      NullOutputWriterConstruct = BuildNullOutputWriter;
+      NullOutputWriterConstructor = BuildNullOutputWriter;
     }
 
     public IColourWriter BuildWriter()
@@ -49,7 +49,7 @@ namespace OmniColour.Factories
     
     public Func<IWin32OutputWriter> Win32OutputWriterConstructor { get; set; }
     
-    public Func<INullOutputWriter> NullOutputWriterConstruct { get; set; }
+    public Func<INullOutputWriter> NullOutputWriterConstructor { get; set; }
     #endregion
 
     #region Constructors
@@ -68,7 +68,7 @@ namespace OmniColour.Factories
       var environmentParser = EnvironmentParserConstructor();
       var win32Writer = Win32OutputWriterConstructor();
       var ansiWriter = AnsiOutputWriterConstructor();
-      var nullWriter = NullOutputWriterConstruct();
+      var nullWriter = NullOutputWriterConstructor();
 
       return new StandardOutputWriterProvider(environmentParser, win32Writer, ansiWriter, nullWriter);
     }
