@@ -14,22 +14,22 @@ namespace OmniColour.Writers.Output
       get { return CommandLineEnvironments.AnsiCompatible; }
     }
 
-    protected override void SetColour(OmniColours color)
+    protected override void SetColour(OmniColours colour)
     {
       using (var stdout = Console.OpenStandardOutput())
-        WriteColor(stdout, color);
+        WriteColour(stdout, colour);
     }
 
-    protected void WriteColor(Stream source, OmniColours color)
+    protected void WriteColour(Stream source, OmniColours colour)
     {
       WriteByteSequence(source, AnsiColours.InitControlSequence);
-      WriteString(source, GetColorEncoding(color));
+      WriteString(source, GetColourEncoding(colour));
     }
 
-    protected string GetColorEncoding(OmniColours color)
+    protected string GetColourEncoding(OmniColours colour)
     {
       const string format = "1;{0}m";
-      return string.Format(format, (int)color);
+      return string.Format(format, (int)colour);
     }
 
     protected void WriteString(Stream source, string data)

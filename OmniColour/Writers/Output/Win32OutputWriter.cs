@@ -16,16 +16,16 @@ namespace OmniColour.Writers.Output
 
     protected override void SetColour(OmniColours colour)
     {
-      Console.ForegroundColor = ToConsoleColor(colour);
+      Console.ForegroundColor = ToConsoleColour(colour);
     }
 
-    protected ConsoleColor ToConsoleColor(OmniColours colour)
+    protected ConsoleColor ToConsoleColour(OmniColours colour)
     {
       // TODO: Improve this.
-      return (ConsoleColor) Enum.Parse(typeof (ConsoleColor), GetConsoleColorName(colour));
+      return (ConsoleColor) Enum.Parse(typeof (ConsoleColor), GetConsoleColourName(colour));
     }
 
-    private static string GetConsoleColorName(OmniColours colour)
+    private static string GetConsoleColourName(OmniColours colour)
     {
       string parsed;
       return string.IsNullOrEmpty(parsed = GetDescription(colour))

@@ -19,9 +19,9 @@ namespace OmniColour.Decoration
 
     public OmniColours Colour { get { return _colour; } }
 
-    public OmniDecoration(OmniColours color)
+    public OmniDecoration(OmniColours colour)
     {
-      _colour = color;
+      _colour = colour;
     }
   }
 }

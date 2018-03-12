@@ -37,21 +37,21 @@ namespace OmniColourTests
     [TestMethod]
     public void TestColourWrite()
     {
-      const string colorText = "Hello, world.";
+      const string colourText = "Hello, world.";
       const string blankText = "Goodbye, world.";
-      const OmniColours color = OmniColours.Blue;
+      const OmniColours colour = OmniColours.Blue;
       
-      var decoration = new OmniDecoration(color);
+      var decoration = new OmniDecoration(colour);
       var writer = TestWriter;
       var message = OmniFactory.BuildMessage();
 
-      Assert.IsNotNull(message.AppendLine(decoration, colorText));
+      Assert.IsNotNull(message.AppendLine(decoration, colourText));
       Assert.IsNotNull(message.AppendLine(blankText));
       Assert.IsNotNull(writer.Write(message));
 
       Assert.AreEqual(TestContents.Count, 2);
       Assert.AreEqual(TestColours.Count, 2);
-      Assert.AreEqual(TestColours.First(), color);
+      Assert.AreEqual(TestColours.First(), colour);
     }
   }
 }
