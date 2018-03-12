@@ -4,6 +4,8 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OmniColour;
 using OmniColour.Decoration;
+using OmniColour.Decoration.Interfaces;
+using OmniColour.Messages;
 
 namespace OmniColourTests
 {
@@ -50,8 +52,48 @@ namespace OmniColourTests
       Assert.IsNotNull(writer.Write(message));
 
       Assert.AreEqual(TestContents.Count, 2);
-      Assert.AreEqual(TestColours.Count, 2);
       Assert.AreEqual(TestColours.First(), colour);
+    }
+
+    [TestMethod]
+    public void TestColourClearing()
+    {
+      const OmniColours colour = OmniColours.BrightCyan;
+      var initialColour = TestWriter.GetDecoration();
+      
+      TestWriter.SetDecoration(new OmniDecoration(colour));
+      
+      TestWriter.Write("Test01");
+      AssertLastColour(colour);
+
+      TestWriter.Write("Test02");
+      AssertLastColour(colour);
+      
+      TestWriter.ClearDecoration();
+      AssertLastColour(initialColour);
+
+      TestWriter.Write(colour, "Test03");
+      AssertLastColour(initialColour);
+
+      TestWriter.WriteLine("Test04");
+      AssertLastColour(initialColour);
+
+      var message = new ColourMessage();
+      message.SetDecoration(new OmniDecoration(colour));
+      message.AppendLine("Test05");
+      TestWriter.Write(message);
+
+      AssertEqual(initialColour, TestColours.Last());
+    }
+
+    protected void AssertLastColour(IOmniDecoration decoration)
+    {
+      AssertEqual(decoration, TestColours.Last());
+    }
+
+    protected void AssertLastColour(OmniColours colour)
+    {
+      Assert.AreEqual(colour, TestColours.Last());
     }
   }
 }

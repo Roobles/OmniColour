@@ -14,6 +14,11 @@ namespace OmniColour.Writers
     IColourWriter ClearDecoration();
 
     /// <summary>
+    /// Gets the current decoration.
+    /// </summary>
+    IOmniDecoration GetDecoration();
+
+    /// <summary>
     /// Sets the current decoration on the command line.
     /// All future direct blocks written will be decorated with this value.
     /// </summary>

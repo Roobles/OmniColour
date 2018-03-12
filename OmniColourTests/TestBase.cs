@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OmniColour;
+using OmniColour.Decoration;
+using OmniColour.Decoration.Interfaces;
 using OmniColour.Factories;
 using OmniColour.Factories.Interfaces;
 using OmniColour.Providers.Interfaces;
@@ -35,6 +37,27 @@ namespace OmniColourTests
     private static IOutputWriterProvider BuildTestProvider()
     {
       return new TestOutputWriterProvider();
+    }
+
+    internal void AssertEqual(IOmniDecoration a, IOmniDecoration b)
+    {
+      Assert.IsTrue(AreEqual(a, b));
+    }
+
+    internal void AssertEqual(IOmniDecoration a, OmniColours b)
+    {
+      AssertEqual(a, new OmniDecoration(b));
+    }
+
+    internal bool AreEqual(IOmniDecoration a, IOmniDecoration b)
+    {
+      if (ReferenceEquals(a, null) && ReferenceEquals(b, null))
+        return true;
+
+      if (ReferenceEquals(a, null) || ReferenceEquals(b, null))
+        return false;
+
+      return a.Colour == b.Colour;
     }
   }
 }

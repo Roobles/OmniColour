@@ -42,6 +42,11 @@ namespace OmniColour.Writers
       return this;
     }
 
+    public IOmniDecoration GetDecoration()
+    {
+      return CurrentDecoration;
+    }
+
     public IColourWriter SetDecoration(IOmniDecoration decoration)
     {
       CurrentDecoration = decoration;
