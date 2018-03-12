@@ -9,7 +9,7 @@ using SysEnv = System.Environment;
 
 namespace OmniColour.Writers
 {
-  public class ColourWriter : IColourWriter
+  internal class ColourWriter : IColourWriter
   {
     private readonly IOutputWriterProvider _provider;
     private readonly IEnvironmentParser _parser;
@@ -36,7 +36,9 @@ namespace OmniColour.Writers
 
     public IColourWriter ClearDecoration()
     {
-      Writer.SetDecoration(OmniDecoration.None);
+      var none = OmniDecoration.None;
+      SetDecoration(none);
+      Writer.SetDecoration(none);
       return this;
     }
 
@@ -61,14 +63,30 @@ namespace OmniColour.Writers
       return this;
     }
 
+    public IColourWriter Write(OmniColours colour, string value)
+    {
+      Write(ToMessage(colour, value));
+      return this;
+    }
+
     public IColourWriter WriteFormat(string format, params object[] arguments)
     {
       return Write(string.Format(format, arguments));
     }
 
+    public IColourWriter WriteFormat(OmniColours colour, string format, params object[] arguments)
+    {
+      return Write(colour, string.Format(format, arguments));
+    }
+
     public IColourWriter WriteLine(string line)
     {
       return Write(string.Format("{0}{1}", line, SysEnv.NewLine));
+    }
+
+    public IColourWriter WriteLine(OmniColours colour, string line)
+    {
+      return Write(colour, string.Format("{0}{1}", line, SysEnv.NewLine));
     }
 
     private static void WriteEntry(IOutputWriter writer, IColourEntry entry)
@@ -78,6 +96,16 @@ namespace OmniColour.Writers
 
       writer.SetDecoration(entry.Decorations);
       writer.Write(entry.Message);
+    }
+
+    public static IOmniDecoration ToDecoration(OmniColours colour)
+    {
+      return new OmniDecoration(colour);
+    }
+    
+    private static IColourMessage ToMessage(OmniColours colour, string value)
+    {
+      return new ColourMessage().Append(ToDecoration(colour), value);
     }
   }
 }

@@ -1,5 +1,8 @@
 ﻿namespace OmniColour.Constants
 {
+  /// <summary>
+  /// ANSI colour code values.
+  /// </summary>
   public static class AnsiColours
   {
     public const int None = 0x0;

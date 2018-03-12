@@ -1,5 +1,8 @@
 ﻿namespace OmniColour.Constants
 {
+  /// <summary>
+  /// Win32 console colours.
+  /// </summary>
   public static class Win32Colours
   {
     public const string Black = "Black";

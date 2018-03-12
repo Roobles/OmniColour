@@ -1,9 +1,12 @@
 ﻿using System.Collections.ObjectModel;
-using OmniColour.Decoration;
 using OmniColour.Decoration.Interfaces;
 
 namespace OmniColour.Messages
 {
+  /// <summary>
+  /// A full message that should be printed to the command line.
+  /// May contain multiple blocks of text with multiple decorations.
+  /// </summary>
   public interface IColourMessage
   {
     IColourMessage Append(string value);

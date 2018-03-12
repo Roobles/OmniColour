@@ -7,7 +7,7 @@ using OmniColour.Writers.Output.Interfaces;
 
 namespace OmniColour.Factories.Interfaces
 {
-  interface IOmniColourFactoryIoc
+  internal interface IOmniColourFactoryIoc
   {
     void SetStandard();
 

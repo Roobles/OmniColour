@@ -1,5 +1,4 @@
-﻿using System;
-using OmniColour.Decoration;
+﻿using OmniColour.Decoration;
 using OmniColour.Decoration.Interfaces;
 using OmniColour.Environment.Interfaces;
 
