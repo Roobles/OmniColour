@@ -55,6 +55,7 @@
     <Compile Include="TestBase.cs" />
     <Compile Include="Types\TestOutputWriter.cs" />
     <Compile Include="Types\TestOutputWriterProvider.cs" />
+    <Compile Include="WriterTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OmniColour\OmniColour.csproj">

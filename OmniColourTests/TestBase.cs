@@ -7,16 +7,23 @@ using OmniColourTests.Types;
 namespace OmniColourTests
 {
   [TestClass]
-  internal class TestBase
+  public class TestBase
   {
     private IOmniColourFactory _omniFactory;
 
-    protected IOmniColourFactory OmniFactory
+    internal IOmniColourFactory OmniFactory
     {
       get { return _omniFactory ?? (_omniFactory = BuildOmniFactory()); }
     }
 
-    protected virtual IOmniColourFactory BuildOmniFactory()
+    internal TestOutputWriterProvider TestProvider { get; private set; }
+
+    internal TestOutputWriter TestWriter
+    {
+      get { return TestProvider.TestWriter; }
+    }
+
+    internal virtual IOmniColourFactory BuildOmniFactory()
     {
       var factory = new OmniColourFactory();
       SetDependencies(factory);
@@ -24,14 +31,14 @@ namespace OmniColourTests
       return factory;
     }
 
-    protected virtual void SetDependencies(IOmniColourFactoryIoc omniColourIoc)
+    internal virtual void SetDependencies(IOmniColourFactoryIoc omniColourIoc)
     {
       omniColourIoc.OutputWriterProviderContrustor = BuildTestProvider;
     }
 
-    private static IOutputWriterProvider BuildTestProvider()
+    private IOutputWriterProvider BuildTestProvider()
     {
-      return new TestOutputWriterProvider();
+      return (TestProvider = new TestOutputWriterProvider());
     }
   }
 }

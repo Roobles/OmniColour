@@ -5,9 +5,9 @@ namespace OmniColourTests.Types
 {
   internal class TestOutputWriterProvider : IOutputWriterProvider
   {
-    private readonly IOutputWriter _testWriter;
+    private readonly TestOutputWriter _testWriter;
 
-    protected IOutputWriter TestWriter { get { return _testWriter; } }
+    public TestOutputWriter TestWriter { get { return _testWriter; } }
 
     public TestOutputWriterProvider()
     {
