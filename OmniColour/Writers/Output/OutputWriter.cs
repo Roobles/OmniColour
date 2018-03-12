@@ -18,7 +18,7 @@ namespace OmniColour.Writers.Output
       SetDecoration(OmniDecoration.None);
     }
 
-    public void Write(string value)
+    public virtual void Write(string value)
     {
       if (string.IsNullOrEmpty(value))
         return;
