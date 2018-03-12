@@ -9,6 +9,8 @@ namespace OmniColour.Factories.Interfaces
 {
   interface IOmniColourFactoryIoc
   {
+    void SetStandard();
+
     Func<IColourWriter> ColourWriterConstructor { get; set; }
 
     Func<IColourMessage> ColourMessageConstructor { get; set; }

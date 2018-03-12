@@ -1,34 +1,37 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OmniColour;
 using OmniColour.Factories;
 using OmniColour.Factories.Interfaces;
 using OmniColour.Providers.Interfaces;
+using OmniColour.Writers;
 using OmniColourTests.Types;
 
 namespace OmniColourTests
-{
+{ 
   [TestClass]
   public class TestBase
   {
-    private IOmniColourFactory _omniFactory;
+    private readonly IOmniColourFactory _omniFactory;
 
-    internal IOmniColourFactory OmniFactory
+    internal IOmniColourFactory OmniFactory { get { return _omniFactory; } }
+
+    internal IColourWriter TestWriter { get { return OmniFactory.BuildWriter(); } }
+
+    internal IList<string> TestContents { get { return TestOutputWriter.Contents; } }
+
+    internal IList<OmniColours> TestColours { get { return TestOutputWriter.Colours; } } 
+    
+    public TestBase()
     {
-      get { return _omniFactory ?? (_omniFactory = BuildOmniFactory()); }
+      _omniFactory = BuildOmniFactory();
     }
 
-    internal TestOutputWriterProvider TestProvider { get; private set; }
-
-    internal TestOutputWriter TestWriter
+    internal IOmniColourFactory BuildOmniFactory()
     {
-      get { return TestProvider.TestWriter; }
-    }
+      SetDependencies(OmniColourFactory.IoC);
 
-    internal virtual IOmniColourFactory BuildOmniFactory()
-    {
-      var factory = new OmniColourFactory();
-      SetDependencies(factory);
-
-      return factory;
+      return OmniColourFactory.Factory;
     }
 
     internal virtual void SetDependencies(IOmniColourFactoryIoc omniColourIoc)
@@ -38,7 +41,7 @@ namespace OmniColourTests
 
     private IOutputWriterProvider BuildTestProvider()
     {
-      return (TestProvider = new TestOutputWriterProvider());
+      return new TestOutputWriterProvider();
     }
   }
 }

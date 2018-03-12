@@ -14,17 +14,39 @@ namespace OmniColour.Factories
   internal class OmniColourFactory : IOmniColourFactory, IOmniColourFactoryIoc
   {
     private static IColourWriter _writer;
+    private static OmniColourFactory _factory;
+    
+    private static Func<IColourWriter> _colourWriterConstructor;
+    private static Func<IColourMessage> _colourMessageConstructor;
+    private static Func<IOutputWriterProvider> _outputWriterProviderContrustor;
+    private static Func<IEnvironmentParser> _environmentParserConstructor;
+    private static Func<IAnsiOutputWriter> _ansiOutputWriterConstructor;
+    private static Func<IWin32OutputWriter> _win32OutputWriterConstructor;
+    private static Func<INullOutputWriter> _nullOutputWriterConstructor;
 
     #region IOmniColourFactory Implementation
-    public OmniColourFactory()
+    private OmniColourFactory()
     {
-      ColourWriterConstructor = BuildColourWriter;
-      ColourMessageConstructor = BuildColourMessage;
-      OutputWriterProviderContrustor = BuildOutputWriterProvider;
-      EnvironmentParserConstructor = BuildEnvironmentParser;
-      AnsiOutputWriterConstructor = BuildAnsiOutputWriter;
-      Win32OutputWriterConstructor = BuildWin32OutputWriter;
-      NullOutputWriterConstructor = BuildNullOutputWriter;
+      SetStandard();
+    }
+
+    private static OmniColourFactory IocFactory { get { return _factory ?? (_factory = new OmniColourFactory()); } }
+
+    public static IOmniColourFactory Factory { get { return IocFactory; } }
+
+    public static IOmniColourFactoryIoc IoC { get { return IocFactory; } }
+
+    public void SetStandard()
+    {
+      _colourWriterConstructor = BuildColourWriter;
+      _colourMessageConstructor = BuildColourMessage;
+      _outputWriterProviderContrustor = BuildOutputWriterProvider;
+      _environmentParserConstructor = BuildEnvironmentParser;
+      _ansiOutputWriterConstructor = BuildAnsiOutputWriter;
+      _win32OutputWriterConstructor = BuildWin32OutputWriter;
+      _nullOutputWriterConstructor = BuildNullOutputWriter;
+
+      Rebuild();
     }
 
     public IColourWriter BuildWriter()
@@ -37,19 +59,47 @@ namespace OmniColour.Factories
       return ColourMessageConstructor();
     }
 
-    public Func<IColourWriter> ColourWriterConstructor { get; set; }
+    public Func<IColourWriter> ColourWriterConstructor
+    {
+      get { return _colourWriterConstructor; }
+      set { _colourWriterConstructor = value; Rebuild(); }
+    }
 
-    public Func<IColourMessage> ColourMessageConstructor { get; set; }
+    public Func<IColourMessage> ColourMessageConstructor
+    {
+      get { return _colourMessageConstructor; }
+      set { _colourMessageConstructor = value; Rebuild(); }
+    }
 
-    public Func<IOutputWriterProvider> OutputWriterProviderContrustor { get; set; }
-    
-    public Func<IEnvironmentParser> EnvironmentParserConstructor { get; set; }
+    public Func<IOutputWriterProvider> OutputWriterProviderContrustor
+    {
+      get { return _outputWriterProviderContrustor; }
+      set { _outputWriterProviderContrustor = value; Rebuild(); }
+    }
 
-    public Func<IAnsiOutputWriter> AnsiOutputWriterConstructor { get; set; }
-    
-    public Func<IWin32OutputWriter> Win32OutputWriterConstructor { get; set; }
-    
-    public Func<INullOutputWriter> NullOutputWriterConstructor { get; set; }
+    public Func<IEnvironmentParser> EnvironmentParserConstructor
+    {
+      get { return _environmentParserConstructor; }
+      set { _environmentParserConstructor = value; Rebuild(); }
+    }
+
+    public Func<IAnsiOutputWriter> AnsiOutputWriterConstructor
+    {
+      get { return _ansiOutputWriterConstructor; }
+      set { _ansiOutputWriterConstructor = value; Rebuild(); }
+    }
+
+    public Func<IWin32OutputWriter> Win32OutputWriterConstructor
+    {
+      get { return _win32OutputWriterConstructor; }
+      set { _win32OutputWriterConstructor = value; Rebuild(); }
+    }
+
+    public Func<INullOutputWriter> NullOutputWriterConstructor
+    {
+      get { return _nullOutputWriterConstructor; }
+      set { _nullOutputWriterConstructor = value; Rebuild(); }
+    }
     #endregion
 
     #region Constructors
@@ -73,24 +123,32 @@ namespace OmniColour.Factories
       return new StandardOutputWriterProvider(environmentParser, win32Writer, ansiWriter, nullWriter);
     }
 
-    protected IEnvironmentParser BuildEnvironmentParser()
+    protected static IEnvironmentParser BuildEnvironmentParser()
     {
       return new EnvironmentParser();
     }
 
-    protected IAnsiOutputWriter BuildAnsiOutputWriter()
+    protected static IAnsiOutputWriter BuildAnsiOutputWriter()
     {
       return new AnsiOutputWriter();
     }
 
-    protected IWin32OutputWriter BuildWin32OutputWriter()
+    protected static IWin32OutputWriter BuildWin32OutputWriter()
     {
       return new Win32OutputWriter();
     }
 
-    protected INullOutputWriter BuildNullOutputWriter()
+    protected static INullOutputWriter BuildNullOutputWriter()
     {
       return new NullOutputWriter();
+    }
+    #endregion
+
+    #region Helper Methods
+
+    private void Rebuild()
+    {
+      _writer = ColourWriterConstructor();
     }
     #endregion
   }

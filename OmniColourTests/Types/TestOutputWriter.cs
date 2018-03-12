@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using OmniColour;
 using OmniColour.Environment;
 using OmniColour.Writers.Output;
@@ -8,23 +7,23 @@ namespace OmniColourTests.Types
 {
   internal class TestOutputWriter : OutputWriter
   {
-    private readonly List<string> _contents;
-    private readonly List<OmniColours> _colours; 
+    private static readonly List<string> ContentList;
+    private static readonly List<OmniColours> ColourList;
 
-    public Collection<string> Contents { get { return new Collection<string>(_contents); } }
-
-    public Collection<OmniColours> Colours { get { return new Collection<OmniColours>(_colours); } } 
-
-    public TestOutputWriter()
+    static TestOutputWriter()
     {
-      _contents = new List<string>();
-      _colours = new List<OmniColours>();
+      ContentList = new List<string>();
+      ColourList = new List<OmniColours>();
     }
 
+    public static IList<string> Contents { get { return ContentList; } }
+
+    public static IList<OmniColours> Colours { get { return ColourList; } } 
+    
     public void Clear()
     {
-      _contents.Clear();
-      _colours.Clear();
+      ContentList.Clear();
+      ColourList.Clear();
     }
 
     public override CommandLineEnvironments TargetEnvironment
@@ -34,13 +33,13 @@ namespace OmniColourTests.Types
 
     protected override void SetColour(OmniColours colour)
     {
-      _colours.Add(colour);
+      ColourList.Add(colour);
     }
 
     public override void Write(string value)
     {
       if (!string.IsNullOrEmpty(value))
-        _contents.Add(value);
+        ContentList.Add(value);
     }
   }
 }

@@ -1,4 +1,6 @@
-﻿using OmniColour.Providers.Interfaces;
+﻿using System.Collections.Generic;
+using OmniColour;
+using OmniColour.Providers.Interfaces;
 using OmniColour.Writers.Output.Interfaces;
 
 namespace OmniColourTests.Types

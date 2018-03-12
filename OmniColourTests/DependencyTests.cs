@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OmniColour.Factories;
-using OmniColour.Factories.Interfaces;
 
 namespace OmniColourTests
 {
@@ -10,7 +9,9 @@ namespace OmniColourTests
     [TestMethod]
     public void TestStandardFactory()
     {
-      var factory = (IOmniColourFactory) new OmniColourFactory();
+      var factory = OmniColourFactory.Factory;
+      OmniColourFactory.IoC.SetStandard();
+
       Assert.IsNotNull(factory.BuildWriter());
       Assert.IsNotNull(factory.BuildWriter());
     }

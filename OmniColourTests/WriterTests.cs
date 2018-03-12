@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -12,16 +13,23 @@ namespace OmniColourTests
     {
       const string messageTxt = "Hello, world.";
 
-      var writer = OmniFactory.BuildWriter();
+      var writer = TestWriter;
       var message = OmniFactory.BuildMessage();
-      var outputWriter = TestWriter;
-      var contents = outputWriter.Contents;
 
       Assert.IsNotNull(message.AppendLine(messageTxt));
       Assert.IsNotNull(writer.Write(message));
 
-      Assert.AreEqual(contents.Count, 1);
-      Assert.AreEqual(string.Format("{0}{1}", messageTxt, Environment.NewLine), contents.First());
+      if (TestContents.Count < 1)
+        Debugger.Launch();
+
+      Assert.AreEqual(TestContents.Count, 1);
+      Assert.AreEqual(string.Format("{0}{1}", messageTxt, Environment.NewLine), TestContents.First());
+    }
+
+    [TestMethod]
+    public void TestColourWrite()
+    {
+      
     }
   }
 }
