@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using OmniColour.Constants;
 using OmniColour.Environment;
@@ -17,13 +18,14 @@ namespace OmniColour.Writers.Output
     protected override void SetColour(OmniColours colour)
     {
       using (var stdout = Console.OpenStandardOutput())
-        WriteColour(stdout, colour);
+        using (var writer = new StreamWriter(stdout))
+          WriteColour(writer, colour);
     }
 
-    protected void WriteColour(Stream source, OmniColours colour)
+    protected void WriteColour(StreamWriter writer, OmniColours colour)
     {
-      WriteByteSequence(source, AnsiColours.InitControlSequence);
-      WriteString(source, GetColourEncoding(colour));
+      WriteByteSequence(writer, AnsiColours.InitControlSequence);
+      WriteString(writer, GetColourEncoding(colour));
     }
 
     protected string GetColourEncoding(OmniColours colour)
@@ -32,15 +34,14 @@ namespace OmniColour.Writers.Output
       return string.Format(format, (int)colour);
     }
 
-    protected void WriteString(Stream source, string data)
+    protected void WriteString(StreamWriter writer, string data)
     {
-      WriteByteSequence(source, Encoding.ASCII.GetBytes(data));
+      WriteByteSequence(writer, Encoding.ASCII.GetBytes(data));
     }
 
-    protected void WriteByteSequence(Stream source, byte[] bytes)
+    protected void WriteByteSequence(StreamWriter writer, byte[] bytes)
     {
-      using (var writer = new StreamWriter(source))
-        writer.Write(bytes);
+      writer.Write(bytes.Select(b => (char) b).ToArray());
     }
   }
 }

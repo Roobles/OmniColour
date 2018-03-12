@@ -53,6 +53,7 @@
     <Compile Include="Messages\ColourMessage.cs" />
     <Compile Include="Messages\IColourEntry.cs" />
     <Compile Include="Messages\IColourMessage.cs" />
+    <Compile Include="OmniColour.cs" />
     <Compile Include="OmniColours.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\Interfaces\IOutputWriterProvider.cs" />

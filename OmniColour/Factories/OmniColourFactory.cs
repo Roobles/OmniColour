@@ -105,7 +105,9 @@ namespace OmniColour.Factories
     #region Constructors
     protected IColourWriter BuildColourWriter()
     {
-      return new ColourWriter(OutputWriterProviderContrustor());  
+      var provider = OutputWriterProviderContrustor();
+      var parser = EnvironmentParserConstructor();
+      return new ColourWriter(provider, parser);  
     }
 
     protected IColourMessage BuildColourMessage()
