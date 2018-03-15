@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Text;
 using OmniColour.Decoration;
 using OmniColour.Decoration.Interfaces;
 
@@ -93,6 +94,20 @@ namespace OmniColour.Messages
     public Collection<IColourEntry> Build()
     {
       return new Collection<IColourEntry>(Entries);
+    }
+
+    public string BuildRaw()
+    {
+      var builder = new StringBuilder();
+      foreach (var entry in Build())
+        builder.Append(entry.Message);
+
+      return builder.ToString();
+    }
+
+    public override string ToString()
+    {
+      return BuildRaw();
     }
 
     public IColourMessage Clear()

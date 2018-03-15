@@ -95,6 +95,11 @@ namespace OmniColour.Messages
     /// Builds the current set of messages to be printed to command line.
     /// </summary>
     Collection<IColourEntry> Build();
+
+    /// <summary>
+    /// Builds an unformatted string of the current message.
+    /// </summary>
+    string BuildRaw();
     
     /// <summary>
     /// Clears all messages and decorations.
