@@ -107,7 +107,7 @@ namespace OmniColour.Factories
     {
       var provider = OutputWriterProviderContrustor();
       var parser = EnvironmentParserConstructor();
-      return new ColourWriter(provider, parser);  
+      return new ColourWriter(provider, parser, this);
     }
 
     protected IColourMessage BuildColourMessage()

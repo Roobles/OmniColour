@@ -1,6 +1,7 @@
 ﻿using OmniColour.Decoration;
 using OmniColour.Decoration.Interfaces;
 using OmniColour.Environment.Interfaces;
+using OmniColour.Factories.Interfaces;
 using OmniColour.Messages;
 using OmniColour.Providers.Interfaces;
 using OmniColour.Writers.Output.Interfaces;
@@ -11,6 +12,7 @@ namespace OmniColour.Writers
 {
   internal class ColourWriter : IColourWriter
   {
+    private readonly IOmniColourFactory _factory;
     private readonly IOutputWriterProvider _provider;
     private readonly IEnvironmentParser _parser;
     private IOutputWriter _writer;
@@ -21,17 +23,25 @@ namespace OmniColour.Writers
 
     protected IOmniDecoration CurrentDecoration { get; private set; }
 
+    protected IOmniColourFactory Factory { get { return _factory; } }
+
     private IOutputWriter Writer
     {
       get { return _writer ?? (_writer = Provider.GetOutputWriter()); }
     }
 
-    internal ColourWriter(IOutputWriterProvider provider, IEnvironmentParser parser)
+    internal ColourWriter(IOutputWriterProvider provider, IEnvironmentParser parser, IOmniColourFactory factory)
     {
       _provider = provider;
       _parser = parser;
+      _factory = factory;
 
       CurrentDecoration = Parser.GetCurrentDecorationSettings();
+    }
+
+    public IColourMessage Message
+    {
+      get { return Factory.BuildMessage(); }
     }
 
     public IColourWriter ClearDecoration()

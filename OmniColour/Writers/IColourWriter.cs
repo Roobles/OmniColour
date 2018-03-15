@@ -9,6 +9,11 @@ namespace OmniColour.Writers
   public interface IColourWriter
   {
     /// <summary>
+    /// Handle to a new instance of an IColourMessage.
+    /// </summary>
+    IColourMessage Message { get; }
+
+    /// <summary>
     /// Clears all current decorations.
     /// </summary>
     IColourWriter ClearDecoration();
