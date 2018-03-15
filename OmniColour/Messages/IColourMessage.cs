@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using OmniColour.Decoration.Interfaces;
 
 namespace OmniColour.Messages
@@ -9,6 +10,18 @@ namespace OmniColour.Messages
   /// </summary>
   public interface IColourMessage
   {
+    /// <summary>
+    /// Appends another message.
+    /// </summary>
+    /// <param name="message">Message to append.</param>
+    IColourMessage Append(IColourMessage message);
+
+    /// <summary>
+    /// Appends an enumeration of Colour Entries.
+    /// </summary>
+    /// <param name="entries">Colour Entries to append.</param>
+    IColourMessage Append(IEnumerable<IColourEntry> entries);
+
     /// <summary>
     /// Appends a block of text, using the current decoration.
     /// </summary>

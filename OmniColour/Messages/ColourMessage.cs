@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using OmniColour.Decoration;
 using OmniColour.Decoration.Interfaces;
 
 namespace OmniColour.Messages
 {
-  internal class ColourMessage : IColourMessage
+  internal class ColourMessage : IColourMessage, IEnumerable<IColourEntry>
   {
     private readonly List<IColourEntry> _entries;
 
-    protected IList<IColourEntry> Entries { get { return _entries; } }
+    protected List<IColourEntry> Entries { get { return _entries; } }
 
     private IOmniDecoration Decoration { get; set; }
 
@@ -17,6 +18,22 @@ namespace OmniColour.Messages
     {
       _entries = new List<IColourEntry>();
       Decoration = OmniDecoration.None;
+    }
+
+    public IColourMessage Append(IColourMessage message)
+    {
+      return message == null
+        ? this
+        : Append(message.Build());
+    }
+
+    public IColourMessage Append(IEnumerable<IColourEntry> entries)
+    {
+      // TODO: Consider optimizing.
+      if (entries != null)
+        Entries.AddRange(entries);
+
+      return this;
     }
 
     public IColourMessage Append(string value)
@@ -98,6 +115,16 @@ namespace OmniColour.Messages
     protected IOmniDecoration ToDecoration(OmniColours colour)
     {
       return new OmniDecoration(colour);
+    }
+
+    public IEnumerator<IColourEntry> GetEnumerator()
+    {
+      return Entries.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+      return Entries.GetEnumerator();
     }
   }
 }
