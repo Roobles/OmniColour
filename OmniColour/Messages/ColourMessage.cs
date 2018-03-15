@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using OmniColour.Decoration;
 using OmniColour.Decoration.Interfaces;
 
+using SysEnv = System.Environment;
+
 namespace OmniColour.Messages
 {
   internal class ColourMessage : IColourMessage, IEnumerable<IColourEntry>
@@ -58,7 +60,7 @@ namespace OmniColour.Messages
 
     public IColourMessage AppendLine(IOmniDecoration decoration, string value)
     {
-      var line = string.Format("{0}{1}", value, System.Environment.NewLine);
+      var line = string.Format("{0}{1}", value, SysEnv.NewLine);
       return AppendEntry(line, decoration);
     }
 
@@ -81,6 +83,11 @@ namespace OmniColour.Messages
     public IColourMessage AppendFormat(OmniColours colour, string format, params object[] arguments)
     {
       return AppendFormat(ToDecoration(colour), format, arguments);
+    }
+
+    public IColourMessage Break()
+    {
+      return Append(SysEnv.NewLine);
     }
 
     public Collection<IColourEntry> Build()

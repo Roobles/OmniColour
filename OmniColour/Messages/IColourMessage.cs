@@ -87,6 +87,11 @@ namespace OmniColour.Messages
     IColourMessage AppendFormat(OmniColours colour, string format, params object[] arguments);
 
     /// <summary>
+    /// Appends a line break.
+    /// </summary>
+    IColourMessage Break();
+
+    /// <summary>
     /// Builds the current set of messages to be printed to command line.
     /// </summary>
     Collection<IColourEntry> Build();
